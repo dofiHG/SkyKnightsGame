@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CharacterAttack : MonoBehaviour
 {
+    [SerializeField] private float _reloadTime;
+
     private CharacterStates _states;
 
     public Transform _attackPosition;
@@ -13,15 +15,20 @@ public class CharacterAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (_reloadTime <= 0)
         {
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
-
-            for (int i = 0;  i < enemies.Length; i++)
+            if (Input.GetMouseButton(0))
             {
-                enemies[i].enabled = false;
+                _reloadTime = 1;
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
+
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    enemies[i].GetComponent<EnemyStates>()._hp -= _states._damage;
+                }
             }
         }
+        else { _reloadTime -= Time.deltaTime; }
         
     }
 }

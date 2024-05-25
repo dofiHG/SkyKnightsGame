@@ -3,12 +3,14 @@ using UnityEngine.UI;
 
 public class CharacterStates : MonoBehaviour
 {
-    [SerializeField] private int _hp = 5;
+    
     [SerializeField] private GameObject _deathPanel;
     [SerializeField] private Slider _healtSlider;
     [SerializeField] private Slider _manaSlider;
 
     public int _mana = 10;
+    public int _damage = 1;
+    public int _hp = 5;
 
     private Animator _animator;
 

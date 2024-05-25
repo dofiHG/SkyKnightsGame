@@ -13,6 +13,7 @@ public class CharacterMover : MonoBehaviour
     [SerializeField] private AudioSource _stepsSound;
 
     public SpriteRenderer _sprite;
+    public Transform _attackMark;
 
     private void Start()
     {
@@ -48,8 +49,8 @@ public class CharacterMover : MonoBehaviour
         if (_horizontalDirection != 0 && _animator.GetBool("IsJumping") != true) { _animator.SetBool("IsRunning", true); }
         else { _animator.SetBool("IsRunning", false); }
 
-        if (_horizontalDirection < 0) { _sprite.flipX = true; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.24f, 0.67f); }
-        if (_horizontalDirection > 0) { _sprite.flipX = false; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(0.24f, 0.67f); }
+        if (_horizontalDirection < 0) { _sprite.flipX = true; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.24f, 0.67f); _attackMark.localPosition = new Vector2(-0.88f, _attackMark.localPosition.y); }
+        if (_horizontalDirection > 0) { _sprite.flipX = false; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(0.24f, 0.67f); _attackMark.localPosition = new Vector2(0.88f, _attackMark.localPosition.y); }
 
         if (_horizontalDirection != 0 && _isGround)
         {
