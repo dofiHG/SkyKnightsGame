@@ -1,19 +1,20 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterMover : MonoBehaviour
 {
-    private Rigidbody2D _rb;
     private float _speed = 2;
-    private float _horizontalDirection;
     private float _jumpForce = 5;
     private bool _isGround = true;
     private float _raycastDistance = 0.2f;
-    private Animator _animator;
+    public Animator _animator;
 
     [SerializeField] private AudioSource _stepsSound;
 
     public SpriteRenderer _sprite;
     public Transform _attackMark;
+    public Rigidbody2D _rb;
+    public float _horizontalDirection;
 
     private void Start()
     {

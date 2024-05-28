@@ -4,14 +4,13 @@ public class TriggerText : MonoBehaviour
 {
     private ShowText _textPanel;
 
-    private void Start()
-    {
-        _textPanel = GameObject.FindGameObjectWithTag("TextPanel").GetComponent<ShowText>();
-    }
+    public GameObject _panel;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _textPanel.WriteDialogueText();
+        _panel.SetActive(true);
+        _textPanel = GameObject.FindGameObjectWithTag("TextPanel").GetComponent<ShowText>();
+        _textPanel.WriteText();
         Destroy(gameObject);
     }
 }

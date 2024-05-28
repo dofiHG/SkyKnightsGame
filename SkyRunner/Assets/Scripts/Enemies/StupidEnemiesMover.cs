@@ -2,7 +2,7 @@ using UnityEngine;
  
 public class StupidEnemiesMover : MonoBehaviour 
 { 
-    private int direction = 1; 
+    public int direction = 1; 
 
     public float _speed; 
     public LayerMask _layer; 

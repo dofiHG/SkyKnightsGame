@@ -28,6 +28,8 @@ public class CharacterStates : MonoBehaviour
         {
             _animator.SetBool("Death", true);
             Invoke("EnableDeathScreen", 1.7f);
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static; 
         }
     }
 
