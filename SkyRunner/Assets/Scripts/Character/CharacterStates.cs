@@ -26,6 +26,7 @@ public class CharacterStates : MonoBehaviour
 
         if (_hp <= 0) 
         {
+            gameObject.GetComponent<CharacterMover>()._speed = 0;
             _animator.SetBool("Death", true);
             Invoke("EnableDeathScreen", 1.7f);
             gameObject.GetComponent<Collider2D>().enabled = false;

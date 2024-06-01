@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CharacterMover : MonoBehaviour
 {
-    private float _speed = 2;
     private float _jumpForce = 5;
     private bool _isGround = true;
     private float _raycastDistance = 0.2f;
@@ -15,6 +14,7 @@ public class CharacterMover : MonoBehaviour
     public Transform _attackMark;
     public Rigidbody2D _rb;
     public float _horizontalDirection;
+    public float _speed = 2;
 
     private void Start()
     {
@@ -34,11 +34,14 @@ public class CharacterMover : MonoBehaviour
         _horizontalDirection = Input.GetAxis("Horizontal");
         transform.Translate(_horizontalDirection * _speed * Time.deltaTime * Vector2.right);
         RaycastHit2D _ray = Physics2D.Raycast(_rb.position, Vector2.down, _raycastDistance);
-        _isGround = _ray.collider != null ? true : false;
+        
+        _isGround = _ray.collider != null && _ray.collider.name == "Ground"? true: false;
 
         if (_isGround)
         {
+            gameObject.GetComponent<Collider2D>().isTrigger = false;
             _animator.SetBool("IsJumping", false);
+            _animator.SetInteger("Attack", 0);
             if (Input.GetKeyDown(KeyCode.Space)) 
             {
                 _animator.SetBool("IsRunning", false);

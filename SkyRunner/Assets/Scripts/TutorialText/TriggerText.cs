@@ -8,9 +8,13 @@ public class TriggerText : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _panel.SetActive(true);
-        _textPanel = GameObject.FindGameObjectWithTag("TextPanel").GetComponent<ShowText>();
-        _textPanel.WriteText();
-        Destroy(gameObject);
+        if (collision.tag == "Player") 
+        {
+            _panel.SetActive(true);
+            _textPanel = GameObject.FindGameObjectWithTag("TextPanel").GetComponent<ShowText>();
+            _textPanel.WriteText();
+            Destroy(gameObject);
+        }
+        
     }
 }

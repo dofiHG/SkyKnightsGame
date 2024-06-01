@@ -4,12 +4,14 @@ using UnityEngine;
 public class EnemyStates : MonoBehaviour
 {
     public int _hp;
-
+    public int _damage;
+    
+    int check = 0;
     private Animator _animator;
     private CharacterMover _mover;
 
     [SerializeField] private int _mana;
-    [SerializeField] private int _damage;
+    
 
     private void Start()
     {
@@ -25,9 +27,15 @@ public class EnemyStates : MonoBehaviour
     private void Death()
     {
         _animator.SetBool("Death", true);
+
+        if( check == 0) { gameObject.transform.position = new Vector2(transform.position.x, transform.position.y); check = 1; }
+
         gameObject.GetComponent<Collider2D>().enabled = false;
         gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        gameObject.GetComponent<StupidEnemiesMover>().enabled = false;
+
+        try { gameObject.GetComponent<StupidEnemiesMover>().enabled = false; }
+        catch { gameObject.GetComponent<CleverEnemyMover>().enabled = false; }
+
         StartCoroutine(WaitToDeath());
     }
 
@@ -37,4 +45,6 @@ public class EnemyStates : MonoBehaviour
         _mover._animator.SetBool("TakeDamage", false);
         Destroy(gameObject);
     }
+
+    public void StopAnimationDamage() { gameObject.GetComponent<Animator>().SetBool("Damage", false); }
 }

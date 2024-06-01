@@ -6,6 +6,7 @@ public class CharacterAttack : MonoBehaviour
     [SerializeField] private float _reloadTime;
 
     private CharacterStates _states;
+    private Collider2D _collider;
 
     public Transform _attackPosition;
     public LayerMask _enemy;
@@ -13,11 +14,16 @@ public class CharacterAttack : MonoBehaviour
     public GameObject _dialoguePanel;
     public GameObject _fireballPrefab;
 
-    private void Start() => _states = GetComponent<CharacterStates>();
+    private void Start()
+    {
+        _states = GetComponent<CharacterStates>();
+        _collider = gameObject.GetComponent<Collider2D>();
+    }
 
     private void Update()
     {
         bool universalCheckForAttack = gameObject.GetComponent<Animator>().GetBool("IsJumping") == false && !_dialoguePanel.activeInHierarchy;
+        
         if (_reloadTime <= 0)
         {
             if (Input.GetMouseButton(0) && universalCheckForAttack)
@@ -25,7 +31,10 @@ public class CharacterAttack : MonoBehaviour
 
             if (Input.GetMouseButton(0) && universalCheckForAttack && Input.GetKey(KeyCode.Q) && gameObject.GetComponent<CharacterStates>()._mana >= 2)
                 FireBallAttack();
-        }
+
+            if (gameObject.GetComponent<Animator>().GetBool("IsJumping") == true && !_dialoguePanel.activeInHierarchy && Input.GetMouseButton(0) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+                JumpAttack();
+         }
         else { _reloadTime -= Time.deltaTime; }
     }
 
@@ -37,26 +46,43 @@ public class CharacterAttack : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].GetComponent<EnemyStates>()._hp -= _states._damage;
+            try { enemies[i].GetComponent<Animator>().SetBool("Damage", true); }
+            finally { enemies[i].GetComponent<EnemyStates>()._hp -= _states._damage; }
         }
     }
 
     private void FireBallAttack()
     {
         _reloadTime = 1;
-        gameObject.GetComponent<Animator>().SetInteger("Attack", 2);
-        if (gameObject.GetComponent<CharacterMover>()._horizontalDirection >= 0)
+        _states._mana -= 2;
+        if (gameObject.GetComponent<SpriteRenderer>().flipX == false)
         {
-            Instantiate(_fireballPrefab, new Vector2(gameObject.transform.position.x + 1, gameObject.transform.position.y + 0.6f), Quaternion.identity);
+            _fireballPrefab.GetComponent<SpriteRenderer>().flipX = false;
+            Instantiate(_fireballPrefab, new Vector2(gameObject.transform.position.x + 1.3f, gameObject.transform.position.y + 0.6f), Quaternion.identity);
         }
         else
         {
-            Instantiate(_fireballPrefab, new Vector2(gameObject.transform.position.x - 10, gameObject.transform.position.y + 0.6f), Quaternion.identity);
+            _fireballPrefab.GetComponent<SpriteRenderer>().flipX = true;
+            Instantiate(_fireballPrefab, new Vector2(gameObject.transform.position.x - 1.3f, gameObject.transform.position.y + 0.6f), Quaternion.identity);
         }
+    }
+
+    private void JumpAttack()
+    {
+        _reloadTime = 1;
+        gameObject.GetComponent<Animator>().SetInteger("Attack", 2);
+        _collider.isTrigger = true;
+        float xOffset = gameObject.GetComponent<CharacterMover>()._horizontalDirection > 0 ? 0.24f : -0.24f;
+        _collider.offset = new Vector2(xOffset, _collider.offset.y/2);
     }
 
     public void StopAttackAnimations()
     {
         gameObject.GetComponent<Animator>().SetInteger("Attack", 0);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy") { collision.GetComponent<EnemyStates>()._hp -= 2; }
     }
 }
