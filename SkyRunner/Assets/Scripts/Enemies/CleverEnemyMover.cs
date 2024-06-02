@@ -8,7 +8,6 @@ public class CleverEnemyMover : MonoBehaviour
 {
     private float speed = 2f;
     private Transform player;
-    private int _isCharacterInAttackRange;
 
     public int direction;
 
@@ -16,16 +15,8 @@ public class CleverEnemyMover : MonoBehaviour
 
     private void Update()
     {
-        if(_isCharacterInAttackRange == 1) { Move(); }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.name == "Character") { _isCharacterInAttackRange = 1;  }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.name == "Character") { _isCharacterInAttackRange = 0; gameObject.GetComponent<Animator>().SetBool("Walk", false); }
+        if(Math.Abs(transform.position.x - player.transform.position.x) <= 8) { Move(); }
+        else { gameObject.GetComponent<Animator>().SetBool("Walk", false); }
     }
 
     private void Move()

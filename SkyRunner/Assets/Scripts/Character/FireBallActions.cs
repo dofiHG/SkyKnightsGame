@@ -22,7 +22,7 @@ public class FireBallActions : MonoBehaviour
         {
             try { collision.gameObject.GetComponent<Animator>().SetBool("Damage", true); }
             finally { collision.gameObject.GetComponent<EnemyStates>()._hp -= 2; }
-            int dir = gameObject.transform.position.x > collision.transform.position.x ? -4 : 4;
+            int dir = gameObject.transform.position.x > collision.transform.position.x ? -3 : 3;
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(dir, 0), ForceMode2D.Impulse);
         }
         gameObject.GetComponent<Animator>().SetBool("Boom", true);

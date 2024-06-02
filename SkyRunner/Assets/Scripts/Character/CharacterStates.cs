@@ -34,5 +34,5 @@ public class CharacterStates : MonoBehaviour
         }
     }
 
-    private void EnableDeathScreen() => _deathPanel.SetActive(true);
+    private void EnableDeathScreen() => _deathPanel.GetComponent<Animator>().SetBool("Finish", true);
 }

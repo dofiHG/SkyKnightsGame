@@ -31,8 +31,8 @@ public class Attack : MonoBehaviour
         _reloadTime = 1;
         _states._hp -= gameObject.GetComponent<EnemyStates>()._damage;
 
-        if(transform.position.x >= _player.GetComponent<Transform>().position.x) { _mover._rb.AddForce(new Vector2(-3, 3), ForceMode2D.Impulse); }
-        else { _mover._rb.AddForce(new Vector2(3, 3), ForceMode2D.Impulse); }
+        if(transform.position.x >= _player.GetComponent<Transform>().position.x) { _mover._rb.AddForce(new Vector2(-3, 0), ForceMode2D.Impulse); }
+        else { _mover._rb.AddForce(new Vector2(3, 0), ForceMode2D.Impulse); }
 
         if (_states._hp >= 1)
         {

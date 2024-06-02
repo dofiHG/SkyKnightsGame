@@ -83,6 +83,12 @@ public class CharacterAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy") { collision.GetComponent<EnemyStates>()._hp -= 2; }
+        if (collision.tag == "Enemy") 
+        { 
+            try { collision.gameObject.GetComponent<Animator>().SetBool("Damage", true); }
+            finally { collision.gameObject.GetComponent<EnemyStates>()._hp -= 3; }
+            int dir = gameObject.transform.position.x > collision.transform.position.x ? -3 : 3;
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(dir, 0), ForceMode2D.Impulse);
+        }
     }
 }

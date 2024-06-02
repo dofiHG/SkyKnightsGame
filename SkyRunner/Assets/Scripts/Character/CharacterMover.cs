@@ -36,7 +36,6 @@ public class CharacterMover : MonoBehaviour
         RaycastHit2D _ray = Physics2D.Raycast(_rb.position, Vector2.down, _raycastDistance);
         
         _isGround = _ray.collider != null && _ray.collider.name == "Ground"? true: false;
-
         if (_isGround)
         {
             gameObject.GetComponent<Collider2D>().isTrigger = false;

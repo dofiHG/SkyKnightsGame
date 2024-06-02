@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TextPanel
   - Enemy
+  - FinishPanel
   layers:
   - Default
   - TransparentFX
