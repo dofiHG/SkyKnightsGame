@@ -15,6 +15,7 @@ public class Attack : MonoBehaviour
         _mover = GameObject.FindWithTag("Player").GetComponent<CharacterMover>();
         _collider = GetComponent<CapsuleCollider2D>();
         _states = GameObject.FindWithTag("Player").GetComponent<CharacterStates>();
+        _player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
@@ -31,8 +32,8 @@ public class Attack : MonoBehaviour
         _reloadTime = 1;
         _states._hp -= gameObject.GetComponent<EnemyStates>()._damage;
 
-        if(transform.position.x >= _player.GetComponent<Transform>().position.x) { _mover._rb.AddForce(new Vector2(-3, 0), ForceMode2D.Impulse); }
-        else { _mover._rb.AddForce(new Vector2(3, 0), ForceMode2D.Impulse); }
+        if(transform.position.x >= _player.GetComponent<Transform>().position.x) { _mover._rb.AddForce(new Vector2(-5, 0), ForceMode2D.Impulse); }
+        else { _mover._rb.AddForce(new Vector2(5, 0), ForceMode2D.Impulse); }
 
         if (_states._hp >= 1)
         {

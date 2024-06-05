@@ -5,20 +5,11 @@ public class CharacterAttack : MonoBehaviour
 {
     [SerializeField] private float _reloadTime;
 
-    private CharacterStates _states;
-    private Collider2D _collider;
-
     public Transform _attackPosition;
     public LayerMask _enemy;
     public float _attackRange;
     public GameObject _dialoguePanel;
     public GameObject _fireballPrefab;
-
-    private void Start()
-    {
-        _states = GetComponent<CharacterStates>();
-        _collider = gameObject.GetComponent<Collider2D>();
-    }
 
     private void Update()
     {
@@ -47,14 +38,14 @@ public class CharacterAttack : MonoBehaviour
         for (int i = 0; i < enemies.Length; i++)
         {
             try { enemies[i].GetComponent<Animator>().SetBool("Damage", true); }
-            finally { enemies[i].GetComponent<EnemyStates>()._hp -= _states._damage; }
+            finally { enemies[i].GetComponent<EnemyStates>()._hp -= gameObject.GetComponent<CharacterStates>()._damage; }
         }
     }
 
     private void FireBallAttack()
     {
         _reloadTime = 1;
-        _states._mana -= 2;
+        gameObject.GetComponent<CharacterStates>()._mana -= 2;
         if (gameObject.GetComponent<SpriteRenderer>().flipX == false)
         {
             _fireballPrefab.GetComponent<SpriteRenderer>().flipX = false;
@@ -71,14 +62,9 @@ public class CharacterAttack : MonoBehaviour
     {
         _reloadTime = 1;
         gameObject.GetComponent<Animator>().SetInteger("Attack", 2);
-        _collider.isTrigger = true;
+        gameObject.GetComponent<Collider2D>().isTrigger = true;
         float xOffset = gameObject.GetComponent<CharacterMover>()._horizontalDirection > 0 ? 0.24f : -0.24f;
-        _collider.offset = new Vector2(xOffset, _collider.offset.y/2);
-    }
-
-    public void StopAttackAnimations()
-    {
-        gameObject.GetComponent<Animator>().SetInteger("Attack", 0);
+        gameObject.GetComponent<Collider2D>().offset = new Vector2(xOffset, gameObject.GetComponent<Collider2D>().offset.y/2);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -91,4 +77,6 @@ public class CharacterAttack : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(dir, 0), ForceMode2D.Impulse);
         }
     }
+
+    public void StopAttackAnimations() => gameObject.GetComponent<Animator>().SetInteger("Attack", 0);
 }

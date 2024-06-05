@@ -13,8 +13,8 @@ public class BoostersTake : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if(gameObject.name == "Heart") { if (_states._hp + 1 <= 5) { _states._hp += 1; } }
-            if(gameObject.name == "Mana") { if (_states._mana + 2 <= 10) { _states._mana += 2; } else { _states._mana = 10; } }
+            if (gameObject.name.Substring(0) == "Heart") { if (_states._hp + 1 <= 5) { _states._hp += 1; } }
+            if(gameObject.name.Substring(0) == "Mana") { if (_states._mana + 2 <= 10) { _states._mana += 2; } else { _states._mana = 10; } }
 
             Destroy(gameObject);
         }

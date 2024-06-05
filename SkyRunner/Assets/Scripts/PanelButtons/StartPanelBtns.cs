@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ToBattle : MonoBehaviour
 {
@@ -16,4 +17,6 @@ public class ToBattle : MonoBehaviour
         _startPanel.SetActive(true);
         _levelPanel.SetActive(false);
     }
+
+    public void ClickToTutorial() => SceneManager.LoadScene("Tutorial");
 }

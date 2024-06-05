@@ -3,31 +3,25 @@ using UnityEngine;
 
 public class CharacterMover : MonoBehaviour
 {
-    private float _jumpForce = 5;
+    private float _jumpForce = 7;
     private bool _isGround = true;
     private float _raycastDistance = 0.2f;
-    public Animator _animator;
 
     [SerializeField] private AudioSource _stepsSound;
 
-    public SpriteRenderer _sprite;
     public Transform _attackMark;
     public Rigidbody2D _rb;
     public float _horizontalDirection;
     public float _speed = 2;
+    public Animator _animator;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _sprite = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
-    {
-        JumpAttack();
-        Move();
-    }
+    private void Update() => Move();
 
     private void Move()
     {
@@ -52,8 +46,8 @@ public class CharacterMover : MonoBehaviour
         if (_horizontalDirection != 0 && _animator.GetBool("IsJumping") != true) { _animator.SetBool("IsRunning", true); }
         else { _animator.SetBool("IsRunning", false); }
 
-        if (_horizontalDirection < 0) { _sprite.flipX = true; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.24f, 0.67f); _attackMark.localPosition = new Vector2(-0.88f, _attackMark.localPosition.y); }
-        if (_horizontalDirection > 0) { _sprite.flipX = false; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(0.24f, 0.67f); _attackMark.localPosition = new Vector2(0.88f, _attackMark.localPosition.y); }
+        if (_horizontalDirection < 0) { gameObject.GetComponent<SpriteRenderer>().flipX = true; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.24f, 0.67f); _attackMark.localPosition = new Vector2(-0.88f, _attackMark.localPosition.y); }
+        if (_horizontalDirection > 0) { gameObject.GetComponent<SpriteRenderer>().flipX = false; gameObject.GetComponent<CapsuleCollider2D>().offset = new Vector2(0.24f, 0.67f); _attackMark.localPosition = new Vector2(0.88f, _attackMark.localPosition.y); }
 
         if (_horizontalDirection != 0 && _isGround)
         {
@@ -61,20 +55,5 @@ public class CharacterMover : MonoBehaviour
             else { _stepsSound.Play(); }
         }
         else { _stepsSound.Stop(); } 
-    }
-
-    private void JumpAttack()
-    {
-        if (_isGround == false && Input.GetKeyDown(KeyCode.Mouse0) && _horizontalDirection != 0)
-        {
-            _animator.SetBool("IsJumping", false);
-            _animator.SetBool("JumpAttack", true);
-        }
-        else if (_isGround == true) { _animator.SetBool("JumpAttack", false); }
-    }
-
-    private void DefaultAttack()
-    {
-
     }
 }

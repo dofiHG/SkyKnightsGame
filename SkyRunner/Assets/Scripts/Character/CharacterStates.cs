@@ -12,13 +12,6 @@ public class CharacterStates : MonoBehaviour
     public int _damage = 1;
     public int _hp = 5;
 
-    private Animator _animator;
-
-    private void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
-
     private void Update()
     {
         _healtSlider.value = _hp;
@@ -27,7 +20,7 @@ public class CharacterStates : MonoBehaviour
         if (_hp <= 0) 
         {
             gameObject.GetComponent<CharacterMover>()._speed = 0;
-            _animator.SetBool("Death", true);
+            gameObject.GetComponent<Animator>().SetBool("Death", true);
             Invoke("EnableDeathScreen", 1.7f);
             gameObject.GetComponent<Collider2D>().enabled = false;
             gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static; 
