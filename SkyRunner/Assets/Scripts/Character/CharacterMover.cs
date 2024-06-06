@@ -14,6 +14,7 @@ public class CharacterMover : MonoBehaviour
     public float _horizontalDirection;
     public float _speed = 2;
     public Animator _animator;
+    public LayerMask _layers;   
 
     private void Start()
     {
@@ -27,8 +28,8 @@ public class CharacterMover : MonoBehaviour
     {
         _horizontalDirection = Input.GetAxis("Horizontal");
         transform.Translate(_horizontalDirection * _speed * Time.deltaTime * Vector2.right);
-        RaycastHit2D _ray = Physics2D.Raycast(_rb.position, Vector2.down, _raycastDistance);
-        
+        RaycastHit2D _ray = Physics2D.Raycast(_rb.position, Vector2.down, _raycastDistance, _layers);
+
         _isGround = _ray.collider != null && _ray.collider.name == "Ground"? true: false;
         if (_isGround)
         {

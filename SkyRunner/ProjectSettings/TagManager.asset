@@ -7,6 +7,7 @@ TagManager:
   - TextPanel
   - Enemy
   - FinishPanel
+  - 1
   layers:
   - Default
   - TransparentFX
