@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour
     private void Start()
     {
         _mover = GameObject.FindWithTag("Player").GetComponent<CharacterMover>();
-        _collider = GetComponent<CapsuleCollider2D>();
+        _collider = GetComponent<Collider2D>();
         _states = GameObject.FindWithTag("Player").GetComponent<CharacterStates>();
         _player = GameObject.FindWithTag("Player");
     }
