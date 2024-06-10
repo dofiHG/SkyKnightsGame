@@ -13,15 +13,16 @@ public class FinishTrigger : MonoBehaviour
     {
         if (collision.tag == "Player") 
         {
+            if (_player.GetComponent<CharacterStates>()._hasStarTaken) { PlayerPrefs.SetInt($"Star{PlayerPrefs.GetInt("lvl")}", 1); }
             _player.GetComponent<CharacterMover>().enabled = false;
             _player.GetComponent<CharacterAttack>().enabled = false;
             gameObject.GetComponent<FinishMover>().enabled = true;
             if (!_player.GetComponentInChildren<AudioSource>().isPlaying) { _player.GetComponentInChildren<AudioSource>().Play(); }
-            StartCoroutine(OffSound());
+            StartCoroutine(ShowFinishPanel());
         }
     }
 
-    private IEnumerator OffSound()
+    private IEnumerator ShowFinishPanel()
     {
         yield return new WaitForSeconds(1.5f);
         GameObject.FindGameObjectWithTag("FinishPanel").GetComponent<Animator>().SetBool("Finish", true);

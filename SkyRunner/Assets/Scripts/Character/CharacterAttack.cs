@@ -59,7 +59,6 @@ public class CharacterAttack : MonoBehaviour
 
     private void JumpAttack()
     {
-        _reloadTime = 1;
         gameObject.GetComponent<Animator>().SetInteger("Attack", 2);
         gameObject.GetComponent<Collider2D>().isTrigger = true;
         float xOffset = gameObject.GetComponent<CharacterMover>()._horizontalDirection > 0 ? 0.24f : -0.24f;
@@ -68,13 +67,17 @@ public class CharacterAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy") 
-        { 
+        if(collision.name == "DangerousLayer") { gameObject.GetComponent<CharacterStates>()._hp = 0; }
+        if (collision.name == "Ground") { gameObject.GetComponent<CharacterStates>()._hp = 0; }
+
+        if (collision.tag == "Enemy" && _reloadTime <= 0) 
+        {
+            _reloadTime = 1;
             try { collision.gameObject.GetComponent<Animator>().SetBool("Damage", true); }
             finally { collision.gameObject.GetComponent<EnemyStates>()._hp -= 3; }
             int dir = gameObject.transform.position.x > collision.transform.position.x ? -3 : 3;
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(dir, 0), ForceMode2D.Impulse);
-        }
+        }  
     }
 
     public void StopAttackAnimations() => gameObject.GetComponent<Animator>().SetInteger("Attack", 0);

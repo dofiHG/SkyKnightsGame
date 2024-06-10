@@ -8,6 +8,7 @@ public class CharacterStates : MonoBehaviour
     [SerializeField] private Slider _healtSlider;
     [SerializeField] private Slider _manaSlider;
 
+    public bool _hasStarTaken;
     public int _mana = 10;
     public int _damage = 1;
     public int _hp = 5;

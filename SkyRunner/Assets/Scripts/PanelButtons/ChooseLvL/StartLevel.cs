@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class StartLevel : MonoBehaviour
 {
-    private int lvl;
+    private static int lvl;
 
     public void GoToLvL()
     {

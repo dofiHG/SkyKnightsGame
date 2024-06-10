@@ -9,6 +9,7 @@ public class EnemyStates : MonoBehaviour
     int check = 0;
     private Animator _animator;
     private CharacterMover _mover;
+    private float _timmer;
 
     [SerializeField] private int _mana;
     
@@ -35,13 +36,13 @@ public class EnemyStates : MonoBehaviour
 
         try { gameObject.GetComponent<StupidEnemiesMover>().enabled = false; }
         catch { gameObject.GetComponent<CleverEnemyMover>().enabled = false; }
-
+        _timmer = gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         StartCoroutine(WaitToDeath());
     }
 
     private IEnumerator WaitToDeath()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(_timmer);
         _mover._animator.SetBool("TakeDamage", false);
         Destroy(gameObject);
     }
