@@ -68,7 +68,11 @@ public class CharacterAttack : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.name == "DangerousLayer") { gameObject.GetComponent<CharacterStates>()._hp = 0; }
-        if (collision.name == "Ground") { gameObject.GetComponent<CharacterStates>()._hp = 0; }
+        if (collision.name == "Ground") 
+        {
+            gameObject.GetComponent<Collider2D>().isTrigger = false;
+            gameObject.GetComponent<Animator>().SetInteger("Attack", 0);
+        }
 
         if (collision.tag == "Enemy" && _reloadTime <= 0) 
         {

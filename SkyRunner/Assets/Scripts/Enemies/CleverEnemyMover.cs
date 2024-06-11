@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CleverEnemyMover : MonoBehaviour
 {
@@ -15,7 +12,7 @@ public class CleverEnemyMover : MonoBehaviour
 
     private void Update()
     {
-        if(Math.Abs(transform.position.x - player.transform.position.x) <= 8) { Move(); }
+        if(Math.Abs(transform.position.x - player.transform.position.x) <= 8 && Math.Abs(transform.position.y - player.transform.position.y) <= 8) { Move(); }
         else { gameObject.GetComponent<Animator>().SetBool("Walk", false); }
     }
 
