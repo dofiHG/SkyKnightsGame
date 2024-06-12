@@ -29,8 +29,8 @@ public class CharacterMover : MonoBehaviour
         _horizontalDirection = Input.GetAxis("Horizontal");
         transform.Translate(_horizontalDirection * _speed * Time.deltaTime * Vector2.right);
         RaycastHit2D _ray = Physics2D.Raycast(_rb.position, new Vector3(0, -1, 0), _raycastDistance, _layers);
-
-        _isGround = _ray.collider != null && _ray.collider.name == "Ground"? true: false;
+        
+        _isGround = _ray.collider != null && (_ray.collider.name == "Ground" || _ray.collider.name.Substring(0) == "MovePlatform") ? true: false;
         if (_isGround)
         {
             gameObject.GetComponent<Collider2D>().isTrigger = false;
