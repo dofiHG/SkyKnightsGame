@@ -10,8 +10,8 @@ public class PlatformMover : MonoBehaviour
 
     private void Update()
     {
-        if (transform.localPosition.x <= _leftBorder || transform.localPosition.x >= _rightBorder) { _horiontalDirection *= -1; }
-
+        if (transform.localPosition.x <= _leftBorder) { _horiontalDirection = 1; } 
+        if (transform.localPosition.x >= _rightBorder) { _horiontalDirection = -1; }
         transform.Translate(_horiontalDirection * Time.deltaTime * _speed * Vector2.right);
     }
 }
