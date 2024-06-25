@@ -13,6 +13,7 @@ public class FinishTrigger : MonoBehaviour
     {
         if (collision.tag == "Player") 
         {
+            PlayerPrefs.SetInt("activeLvLs", PlayerPrefs.GetInt("lvl")+1);
             if (_player.GetComponent<CharacterStates>()._hasStarTaken) { PlayerPrefs.SetInt($"Star{PlayerPrefs.GetInt("lvl")}", 1); }
             _player.GetComponent<CharacterMover>().enabled = false;
             _player.GetComponent<CharacterAttack>().enabled = false;

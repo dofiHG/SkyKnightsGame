@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartLevel : MonoBehaviour
 {
@@ -10,8 +11,12 @@ public class StartLevel : MonoBehaviour
 
     public void GoToLvL()
     {
-        lvl = Convert.ToInt32(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text);
-        PlayerPrefs.SetInt("lvl", lvl);
-        SceneManager.LoadScene($"Level1");
+        if (EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color != new Color(255, 255, 255)) { }
+        else
+        {
+            lvl = Convert.ToInt32(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text);
+            PlayerPrefs.SetInt("lvl", lvl);
+            SceneManager.LoadScene($"Level1");
+        }
     }
 }
