@@ -26,11 +26,10 @@ public class CharacterAttack : MonoBehaviour
 
                 if (Input.GetMouseButton(0) && universalCheckForAttack)
                     DefaultAttack();
-
-                if ((gameObject.GetComponent<Animator>().GetBool("IsJumping") == true && !_dialoguePanel.activeInHierarchy) && gameObject.GetComponent<CharacterMover>()._horizontalDirection != 0 && Input.GetMouseButton(0))
-                    JumpAttack();
             }
-            
+            if ((gameObject.GetComponent<Animator>().GetBool("IsJumping") == true && !_dialoguePanel.activeInHierarchy) && (Input.GetMouseButton(0) || Input.GetButton("Punch")))
+                JumpAttack();
+
         }
         else { _reloadTime -= Time.deltaTime; }
     }

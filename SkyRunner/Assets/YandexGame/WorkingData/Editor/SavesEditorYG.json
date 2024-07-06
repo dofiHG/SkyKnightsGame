@@ -1,5 +1,5 @@
 {
-    "idSave": 91,
+    "idSave": 140,
     "isFirstSession": false,
     "language": "en",
     "promptDone": false,
@@ -9,6 +9,7 @@
     "isPlusHp": true,
     "IsPlaySound": 1,
     "activeTutorial": false,
+    "device": 0,
     "openedStars": [
         0,
         0,

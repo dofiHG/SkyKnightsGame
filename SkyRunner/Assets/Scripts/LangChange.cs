@@ -24,5 +24,6 @@ public class LangChange : MonoBehaviour
 
         _image.sprite = _langSprites[langInt];
         LeanLocalization.SetCurrentLanguageAll(_languages[langInt]);
+        YandexGame.SaveProgress();
     }
 }
