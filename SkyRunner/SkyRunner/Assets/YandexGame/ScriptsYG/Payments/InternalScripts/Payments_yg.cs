@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Networking;
+
 using YG.Utils.Pay;
 
 namespace YG
@@ -10,8 +12,10 @@ namespace YG
         public static Action GetPaymentsEvent;
         public static Action<string> PurchaseSuccessEvent;
         public static Action<string> PurchaseFailedEvent;
+        public static event Action<Sprite> PriceCurrencySpriteEvent;
         public static Purchase[] purchases = new Purchase[0];
         public static string langPayments = "ru";
+        public static Sprite priceCurrencySprite;
         private static bool isInitPayments;
 
         // Initialization
@@ -29,6 +33,12 @@ namespace YG
             Instance.PaymentsEntries("");
 #endif
             isInitPayments = true;
+
+            if (purchases?.Length > 0)
+            {
+                var url = purchases[0].priceCurrencyImage;
+                Instance.StartCoroutine(DownloadPriceCurrencySprite(url));
+            }
         }
 
         [StartYG]
@@ -127,7 +137,10 @@ namespace YG
                 purchases[i].title = paymentsData.title[i];
                 purchases[i].description = paymentsData.description[i];
                 purchases[i].imageURI = paymentsData.imageURI[i];
+                purchases[i].price = paymentsData.price[i];
                 purchases[i].priceValue = paymentsData.priceValue[i];
+                purchases[i].priceCurrencyCode = paymentsData.priceCurrencyCode[i];
+                purchases[i].priceCurrencyImage = paymentsData.priceCurrencyImage[i];
                 purchases[i].consumed = paymentsData.consumed[i];
             }
             langPayments = paymentsData.language;
@@ -161,6 +174,28 @@ namespace YG
             GetPaymentsEvent = null;
             PurchaseSuccessEvent = null;
             PurchaseFailedEvent = null;
+        }
+
+        private static System.Collections.IEnumerator DownloadPriceCurrencySprite(string url)
+        {
+#if UNITY_2020_1_OR_NEWER
+            using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return webRequest.SendWebRequest();
+
+                if (webRequest.result != UnityWebRequest.Result.ConnectionError &&
+                    webRequest.result != UnityWebRequest.Result.DataProcessingError)
+                {
+                    DownloadHandlerTexture handlerTexture = webRequest.downloadHandler as DownloadHandlerTexture;
+                    if (handlerTexture.isDone)
+                    {
+                        var spriteSize = new Rect(0, 0, handlerTexture.texture.width, handlerTexture.texture.height);
+                        priceCurrencySprite = Sprite.Create(handlerTexture.texture, spriteSize, Vector2.zero);
+                        PriceCurrencySpriteEvent?.Invoke(priceCurrencySprite);
+                    }
+                }
+            }
+#endif
         }
     }
 }

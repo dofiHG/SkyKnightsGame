@@ -1,11 +1,11 @@
 {
-    "idSave": 249,
+    "idSave": 292,
     "isFirstSession": false,
     "language": "en",
     "promptDone": false,
     "currentLvl": 1,
     "activeLvls": 1,
-    "usersLanguage": 1,
+    "usersLanguage": 0,
     "isPlusHp": true,
     "IsPlaySound": 1,
     "activeTutorial": false,
