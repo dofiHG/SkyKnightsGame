@@ -18,7 +18,9 @@ namespace YG
         public int IsPlaySound = 1;
         public bool activeTutorial;
         public int device = 0;
- 
+        public int adviceToOpen = -1;
+
+
         public int[] openedStars1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using YG;
 
@@ -6,6 +7,22 @@ public class Buying : MonoBehaviour
 {
     public GameObject _starAdvicePanel;
     public TMP_Text _mainText;
+
+    private void Start()
+    {
+        try
+        {
+            switch (YandexGame.savesData.usersLanguage)
+            {
+                case 0: _mainText.text = _advicesRus[YandexGame.savesData.adviceToOpen]; break;
+                case 1: _mainText.text = _advicesEng[YandexGame.savesData.adviceToOpen]; break;
+                case 2: _mainText.text = _advicesGer[YandexGame.savesData.adviceToOpen]; break;
+                case 3: _mainText.text = _advicesTur[YandexGame.savesData.adviceToOpen]; break;
+            }
+        }
+
+        catch { }
+    }
 
     private string[] _advicesRus = 
     {
@@ -133,19 +150,16 @@ public class Buying : MonoBehaviour
 
         if (id == "2")
         {
-            int starToOpen = 0;
-
             for (int i = 0; i < YandexGame.savesData.openedStars1.Length; i++)
-                if (YandexGame.savesData.openedStars1[i] == 0) { starToOpen = i; break; }
+                if (YandexGame.savesData.openedStars1[i] == 0) { YandexGame.savesData.adviceToOpen = i; break; }
 
             _starAdvicePanel.SetActive(true);
-            Debug.Log(starToOpen);
             switch (YandexGame.savesData.usersLanguage)
             {
-                case 0: _mainText.text = _advicesRus[starToOpen]; break;
-                case 1: _mainText.text = _advicesEng[starToOpen]; break;
-                case 2: _mainText.text = _advicesGer[starToOpen]; break;
-                case 3: _mainText.text = _advicesTur[starToOpen]; break;
+                case 0: _mainText.text = _advicesRus[YandexGame.savesData.adviceToOpen]; break;
+                case 1: _mainText.text = _advicesEng[YandexGame.savesData.adviceToOpen]; break;
+                case 2: _mainText.text = _advicesGer[YandexGame.savesData.adviceToOpen]; break;
+                case 3: _mainText.text = _advicesTur[YandexGame.savesData.adviceToOpen]; break;
             }
         }
 

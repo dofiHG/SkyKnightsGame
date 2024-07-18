@@ -17,7 +17,7 @@ public class FinishTrigger : MonoBehaviour
         if (collision.tag == "Player") 
         {
             _audioSourceFinish.Play();
-            if (YandexGame.savesData.activeLvls == YandexGame.savesData.currentLvl) { YandexGame.savesData.activeLvls = YandexGame.savesData.activeLvls + 1; }
+            if (YandexGame.savesData.activeLvls == YandexGame.savesData.currentLvl) { YandexGame.savesData.activeLvls += 1; }
             if (_player.GetComponent<CharacterStates>()._hasStarTaken) 
             { 
                 if (YandexGame.savesData.currentLvl >= 3 && YandexGame.savesData.currentLvl < 10)
@@ -27,8 +27,7 @@ public class FinishTrigger : MonoBehaviour
                 if (YandexGame.savesData.currentLvl >= 21 && YandexGame.savesData.currentLvl < 30)
                     YandexGame.savesData.openedStars1[YandexGame.savesData.currentLvl - 5] = 1;
             }
-            YandexGame.savesData.activeLvls = 1;
-            YandexGame.savesData.openedStars1[0] = 0;
+            YandexGame.SaveProgress();
             _player.GetComponent<CharacterMover>().enabled = false;
             _player.GetComponent<CharacterAttack>().enabled = false;
             gameObject.GetComponent<FinishMover>().enabled = true;
